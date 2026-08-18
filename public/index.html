@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Notebook · full-stack Claude starter</title>
+<link rel="stylesheet" href="./styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <div>
+      <h1>Notebook</h1>
+      <p class="brand-sub">Node · Express · <span id="db-driver">…</span> · Claude</p>
+    </div>
+  </div>
+
+  <div class="topbar-status">
+    <span class="pill" id="ai-status" title="Claude connection status">
+      <span class="dot" aria-hidden="true"></span><span class="pill-text">checking…</span>
+    </span>
+    <button class="btn btn-ghost" id="theme-toggle" type="button" aria-label="Toggle colour theme">
+      <span aria-hidden="true">◐</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="layout">
+
+  <!-- ── Notes ─────────────────────────────────────────────────────────── -->
+  <section class="panel panel-notes" aria-labelledby="notes-heading">
+    <div class="panel-head">
+      <h2 id="notes-heading">Notes</h2>
+      <button class="btn btn-primary btn-sm" id="new-note" type="button">New note</button>
+    </div>
+
+    <div class="search-row">
+      <label class="visually-hidden" for="search">Search notes</label>
+      <input id="search" type="search" placeholder="Search title, body or tags…" autocomplete="off">
+    </div>
+
+    <ul class="note-list" id="note-list" aria-live="polite"></ul>
+
+    <div class="pager" id="pager" hidden>
+      <button class="btn btn-ghost btn-sm" id="prev-page" type="button">← Newer</button>
+      <span class="pager-info" id="pager-info"></span>
+      <button class="btn btn-ghost btn-sm" id="next-page" type="button">Older →</button>
+    </div>
+  </section>
+
+  <!-- ── Editor + upload ───────────────────────────────────────────────── -->
+  <section class="panel panel-editor" aria-labelledby="editor-heading">
+    <div class="panel-head">
+      <h2 id="editor-heading">Editor</h2>
+      <span class="muted small" id="editor-state">New note</span>
+    </div>
+
+    <form id="note-form" class="stack" novalidate>
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" name="title" maxlength="200" required placeholder="What is this about?">
+      </div>
+
+      <div class="field grow">
+        <label for="body">Body</label>
+        <textarea id="body" name="body" rows="8" maxlength="20000" placeholder="Write it down…"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="tags">Tags <span class="muted small">comma separated</span></label>
+        <input id="tags" name="tags" placeholder="work, planning">
+      </div>
+
+      <div class="row row-end">
+        <button class="btn btn-ghost" id="delete-note" type="button" hidden>Delete</button>
+        <button class="btn btn-ghost" id="summarize-note" type="button" hidden>✨ Summarise with Claude</button>
+        <button class="btn btn-primary" type="submit" id="save-note">Save note</button>
+      </div>
+    </form>
+
+    <div class="ai-result" id="ai-result" hidden></div>
+
+    <details class="upload">
+      <summary>Bulk upload from CSV</summary>
+      <p class="muted small">
+        Columns: <code>title</code>, <code>body</code>, <code>tags</code> (semicolon separated).
+        <a href="/api/upload/template" download>Download a template</a>.
+      </p>
+      <form id="upload-form" class="row">
+        <input type="file" id="csv-file" name="file" accept=".csv,text/csv" required>
+        <button class="btn btn-primary btn-sm" type="submit">Upload</button>
+      </form>
+      <div class="upload-result" id="upload-result" hidden></div>
+    </details>
+  </section>
+
+  <!-- ── Chat ──────────────────────────────────────────────────────────── -->
+  <section class="panel panel-chat" aria-labelledby="chat-heading">
+    <div class="panel-head">
+      <h2 id="chat-heading">Ask Claude</h2>
+      <label class="switch">
+        <input type="checkbox" id="include-notes" checked>
+        <span>Use my notes</span>
+      </label>
+    </div>
+
+    <div class="chat-log" id="chat-log" aria-live="polite">
+      <div class="chat-empty">
+        <p><strong>Streaming chat.</strong> Answers arrive token by token over Server-Sent Events.</p>
+        <p class="muted small">Try: “Summarise everything tagged work” or “What bugs are open?”</p>
+      </div>
+    </div>
+
+    <form class="chat-form" id="chat-form">
+      <label class="visually-hidden" for="chat-input">Message</label>
+      <textarea id="chat-input" rows="1" placeholder="Ask something…" title="Enter to send, Shift+Enter for a new line"></textarea>
+      <button class="btn btn-primary" type="submit" id="chat-send" aria-label="Send">↑</button>
+    </form>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

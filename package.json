@@ -1,0 +1,36 @@
+{
+  "name": "claude-fullstack-starter",
+  "version": "1.0.0",
+  "description": "Full-stack JavaScript starter: responsive UI + Node/Express API + pluggable database (SQLite or MongoDB) + Claude AI with streaming",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js",
+    "seed": "node scripts/seed.js",
+    "smoke": "node scripts/smoke-test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "express",
+    "claude",
+    "anthropic",
+    "sqlite",
+    "mongodb",
+    "streaming"
+  ],
+  "author": "Anirudha Talmale",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "better-sqlite3": "^12.4.1",
+    "cors": "^2.8.5",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "multer": "^2.0.2"
+  }
+}
