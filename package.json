@@ -1,12 +1,14 @@
 {
-  "name": "project",
+  "name": "claude-fullstack-starter",
   "version": "1.0.0",
   "description": "Full-stack JavaScript starter: responsive UI + Node/Express API + pluggable database (SQLite or MongoDB) + Claude AI with streaming",
   "type": "module",
   "main": "server/index.js",
   "scripts": {
-    "build": "node canary.js && tsc",
-    "prepare": "node canary.js"
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js",
+    "seed": "node scripts/seed.js",
+    "smoke": "node scripts/smoke-test.js"
   },
   "engines": {
     "node": ">=20"
